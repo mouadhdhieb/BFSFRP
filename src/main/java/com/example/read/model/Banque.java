@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,7 +24,7 @@ public class Banque implements Serializable   {
     private String CodeBnaque;
     private String Libelle;
     private String Adresse;
-    
+    @OneToMany(mappedBy ="banque")
     private List<Agence> agences;
 
     public Long getId() {

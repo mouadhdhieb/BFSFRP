@@ -6,10 +6,15 @@
 package com.example.read.model;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,8 +30,13 @@ public class CompteBancaire implements Serializable {
     private String Adresse ;
     private Long Num_Comp_TN;
     private Long Num_Comp_AFB;
-    private Banque banque ;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "agence_id")
     private Agence agence ;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "devise_id")
     private Devise devise ;
 
     public Long getId() {
@@ -77,13 +87,7 @@ public class CompteBancaire implements Serializable {
         this.Num_Comp_AFB = Num_Comp_AFB;
     }
 
-    public Banque getBanque() {
-        return banque;
-    }
-
-    public void setBanque(Banque banque) {
-        this.banque = banque;
-    }
+  
 
     public Agence getAgence() {
         return agence;

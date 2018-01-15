@@ -18,6 +18,7 @@ public class FluxTresorerie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id ;
+    
     private String Code_Flux ;
     
     private String Libelle;

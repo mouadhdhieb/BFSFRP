@@ -18,11 +18,17 @@ public class Societe implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id ;
+    
     private String CodeSociete ;
+    
     private  String Libelle;
+    
     private String Adresse ;
+    
     private byte[] Logo;
-    private String SiteWeb;
+    
+    private String SiteWeb; 
+    
     private String Contact;
 
     public Long getId() {
