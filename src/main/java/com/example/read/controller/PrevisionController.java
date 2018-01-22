@@ -1,6 +1,7 @@
 
 package com.example.read.controller;
 
+import static com.example.read.ReadApplication.UPLOAD_SIZE;
 import static com.example.read.StringData.processLine;
 import com.example.read.model.prevision;
 import com.example.read.repository.PrevisionRepository;
@@ -10,21 +11,42 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.ws.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.springframework.http.HttpMethod.POST;
+
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 
 
@@ -34,13 +56,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class PrevisionController {
  @Autowired
  PrevisionService previsionService;
-    
-    
+    private static String Full_path;
+   private static String UPLOAD_FOLDER = "E:\\";
     
 @RequestMapping(value="/getall", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)
 public List<prevision> getAll() {
     return previsionService.getall();
 }
+    
 
 
 @RequestMapping(value="/add", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)
@@ -53,7 +76,7 @@ public String addFileLines(String line) throws FileNotFoundException, Unsupporte
   
         
         try {
-            File file = new File("C:/Interface.txt");
+            File file = new File(Full_path);
           
             FileInputStream fis = new FileInputStream(file);
   
@@ -101,4 +124,33 @@ public String addFileLines(String line) throws FileNotFoundException, Unsupporte
              return "ok";
         }
 }
+
+
+@PostMapping("/upload")
+	public ModelAndView fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+
+		if (file.isEmpty()) {
+			return new ModelAndView("status", "message", "Please select a file and try again");
+		}
+
+		try {
+			// read and write the file to the selected location-
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());
+                        Full_path=(path.toString());
+                        System.out.println(Full_path);
+			Files.write(path, bytes);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("status", "message", "File Uploaded sucessfully");
+	}
+        	@RequestMapping("/upload")
+	public ModelAndView showUpload() {
+		return new ModelAndView("upload");
+	}
+
+   
 }

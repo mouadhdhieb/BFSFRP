@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @SpringBootApplication
 
@@ -19,7 +21,15 @@ public class ReadApplication{
 		SpringApplication.run(ReadApplication.class, args);
                 
 	}
-
+public static final int UPLOAD_SIZE = 10000000;
+ 
+@Bean(name = "multipartResolver")
+public CommonsMultipartResolver multipartResolver()
+{
+  CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+  multipartResolver.setMaxUploadSize( UPLOAD_SIZE );
+  return new CommonsMultipartResolver();
+}
   /*  @Override
     public void run(String... strings) throws Exception {
       
