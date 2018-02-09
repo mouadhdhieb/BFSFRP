@@ -5,6 +5,7 @@
  */
 package com.example.read.services;
 
+import com.example.read.model.Structure;
 import com.example.read.model.prevision;
 import java.nio.file.Path;
 import java.text.ParseException;
@@ -29,6 +30,7 @@ public interface PrevisionService {
 public void init() ;
     public Resource loadFile(String filename) ;
     void deleteAll();
+public void StoreStructure(Structure structure);
 
     
     

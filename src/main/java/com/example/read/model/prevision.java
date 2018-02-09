@@ -43,6 +43,15 @@ public class prevision  implements Serializable {
     private double montant_transaction;
     private String reference;
     private String libelle;
+    private String code_budgitaire;
+
+    public String getCode_budgitaire() {
+        return code_budgitaire;
+    }
+
+    public void setCode_budgitaire(String code_budgitaire) {
+        this.code_budgitaire = code_budgitaire;
+    }
     
     
     @Column(nullable = true, updatable = true)

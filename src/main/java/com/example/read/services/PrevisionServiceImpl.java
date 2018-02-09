@@ -5,6 +5,7 @@
  */
 package com.example.read.services;
 
+import com.example.read.model.Structure;
 import com.example.read.model.prevision;
 import com.example.read.repository.PrevisionRepository;
 import java.io.IOException;
@@ -103,6 +104,11 @@ public class PrevisionServiceImpl  implements PrevisionService {
 		} catch (IOException e) {
 			throw new RuntimeException("Could not initialize storage!");
 		}
+    }
+
+    @Override
+    public void StoreStructure(Structure structure) {
+        
     }
     
     
